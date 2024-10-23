@@ -23,7 +23,7 @@ export default function ProductCardList({ products }: any) {
 
   const calculateGrandTotal = (products: any) => {
     return products.reduce(
-      (acc: any, product: { productTotal: any }) => acc + product.productTotal,
+      (acc: any, product: { price: any, quantity: any}) => acc + product.price * product.quantity,
       0
     );
   };
@@ -33,22 +33,38 @@ export default function ProductCardList({ products }: any) {
     setCartItem((prevCart: any | null) => {
       const newProduct = {
         products: [
-          ...(prevCart?.products || []),
+          ...(prevCart || []),
           {
-            ...product,
-            productTotal: product.price * product.quantity,
+            product: product,
+            total: product.price * product.quantity,
           },
         ],
-        grandTotal: calculateGrandTotal([
-          ...(prevCart?.products || []),
-          {
-            ...product,
-            productTotal: product.price * product.quantity,
-          },
-        ]),
       };
       console.log({ newProduct }, { prevCart });
-      return prevCart ? { ...prevCart?.products, newProduct } : [newProduct];
+      return prevCart
+        ? [
+            ...prevCart,
+            {
+              product,
+              total: calculateGrandTotal([
+                {
+                  ...product,
+                  total: product.price * product.quantity,
+                },
+              ]),
+            },
+          ]
+        : [
+            {
+              product,
+              total: calculateGrandTotal([
+                {
+                  ...product,
+                 total: product.price * product.quantity,
+                },
+              ]),
+            },
+          ];
     });
   };
   const { setCart, cart } = useStore((state) => state);
@@ -81,6 +97,7 @@ export default function ProductCardList({ products }: any) {
   };
   useEffect(() => {
     setCart(cartItem);
+    console.log({ cartItem }, "iii");
   }, [cartItem]);
   return (
     <div className="p-6 flex flex-wrap justify-between items-center gap-[25px]">

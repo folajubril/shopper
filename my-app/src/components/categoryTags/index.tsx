@@ -7,9 +7,7 @@ const FilterTags = ({ ...args }) => {
   const { getFilteredProducts, products } = args;
   const { data: categories } = useGetAllProductsCategories();
   // const { getProductByCategory } = useContext(ProductContext);
-console.log(categories)
-
-
+  console.log(categories);
 
   const [filterd, setFilterd] = useState({
     filter: null,
@@ -17,23 +15,31 @@ console.log(categories)
     id: 0,
   });
   let cat = filterd?.filter ? filterd?.filter : "";
-  const searchProductByCategory = async (productName: any) => {
-    console.log(productName.toLowerCase());
-    if (productName.toLowerCase().length > 0) {
+  const searchProductByCategory = async (categoryName: any) => {
+    console.log(categoryName.toLowerCase());
+    if (categoryName.toLowerCase().length > 0) {
       const searched = products?.filter((product: any) => {
-        return (product = product?.category
-          .toLowerCase()
-          .includes(productName.toLowerCase()));
+        return (product =
+          product?.category.toLowerCase() === categoryName.toLowerCase());
       });
       getFilteredProducts(searched);
-    } else if (productName.toLowerCase().length <= 0) {
+    } else if (categoryName.toLowerCase().length <= 0) {
       return products;
     }
   };
+
+  const clearFilters = async () =>  {
+    await setFilterd({
+      filter: null,
+      status: false,
+      id: 0,
+    });
+    getFilteredProducts(products)
+  }
   const { data: productsInCategory } = useGetProductsByCategory(cat);
-console.log({productsInCategory})
+  console.log({ productsInCategory });
   useEffect(() => {
-    searchProductByCategory(cat)
+    searchProductByCategory(cat);
   }, [cat]);
   return (
     <div className="flex space-x-2">
@@ -62,6 +68,15 @@ console.log({productsInCategory})
           </div>
         </div>
       ))}
+      {filterd.filter ? (
+        <div
+          onClick={() => clearFilters()
+          }
+          className="flex items-center text-gray-600 bg-gray-100 px-3 py-1 rounded-full cursor-pointer text-[16px]"
+        >
+          X
+        </div>
+      ) : ''}
     </div>
   );
 };
