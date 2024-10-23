@@ -55,7 +55,7 @@ const Cart = ({ cartItems }: any) => {
 
                 {/* Product Details */}
                 <div className="flex-grow">
-                  <h2 className="text-lg font-semibold">{item.title}</h2>
+                  <h2 className="text-lg font-semibold">{item?.product.title}</h2>
                   <p className="text-gray-500">
                     Price: ${item?.product.price}
                   </p>

@@ -9,7 +9,7 @@ const useStore = create<StoreType>()(
       ...cartSliceType(...a),
     }),
     {
-      name: 'hpv_store',
+      name: 'hbo_store',
       getStorage: () => localStorage,
     },
   ),
