@@ -15,12 +15,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ProductProvider>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
 
         <Hydrate state={pageProps.dehydratedState}>
           <Component {...pageProps} />
         </Hydrate>
-        </BrowserRouter>
+        {/* </BrowserRouter> */}
 
         <ReactQueryDevtools initialIsOpen={false} />
       </ProductProvider>

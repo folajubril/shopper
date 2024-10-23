@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { StoreType } from '@/types/store';
-import createCartSlice from './products';
+import cartSliceType from './products';
 
 const useStore = create<StoreType>()(
   persist(
     (...a) => ({
-      ...createCartSlice(...a),
+      ...cartSliceType(...a),
     }),
     {
       name: 'hpv_store',

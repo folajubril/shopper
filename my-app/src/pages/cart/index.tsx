@@ -3,13 +3,13 @@ import { ProductContext, productContextValue } from "@utils/context";
 import Image from "next/image";
 import Layout from "@/layouts";
 import Head from "next/head";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import useStore from "@/store";
 
 const Cart = ({ cartItems }: any) => {
   // Calculate total price
 
-  // const { setCart, cart } = useStore((state) => state);
+  const { setCart, cart } = useStore((state) => state);
 
   console.log({ cartItems });
   const totalPrice =
@@ -18,16 +18,16 @@ const Cart = ({ cartItems }: any) => {
       (total: any, item: any) => total + item.price * item.quantity,
       0
     );
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const goBack = () => {
-    navigate(-1); // Navigate back to the previous page
-  };
+  // const goBack = () => {
+  //   navigate(-1); // Navigate back to the previous page
+  // };
   return (
     <div className="max-w-5xl p-6">
       <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
       <div
-        onClick={goBack}
+        // onClick={goBack}
         className="flex items-center space-x-2 cursor-pointer border-gray rounded-md p-[6px]"
       >
         <svg

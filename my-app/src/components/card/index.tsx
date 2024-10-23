@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ProductContext } from "@utils/context";
-import useStore from '@/store';
+import useStore from "@/store";
 interface Product {
   id: string;
   name: string;
@@ -19,41 +19,39 @@ interface CartItem {
   grandTotal: number;
 }
 export default function ProductCardList({ products }: any) {
-const [cartItem, setCartItem] = useState<any>();
+  const [cartItem, setCartItem] = useState<any>();
 
-const calculateGrandTotal = (products: any) => {
-  return products.reduce(
-    (acc: any, product: { productTotal: any; }) => acc + product.productTotal,
-    0
-  )
-}
+  const calculateGrandTotal = (products: any) => {
+    return products.reduce(
+      (acc: any, product: { productTotal: any }) => acc + product.productTotal,
+      0
+    );
+  };
 
-const addToCart = (product: any) => {
-  console.log({product})
-  setCartItem((prevCart: CartItem | null) => {
-    const newProduct = {
+  const addToCart = (product: any) => {
+    console.log({ product });
+    setCartItem((prevCart: any | null) => {
+      const newProduct = {
         products: [
-            ...(prevCart?.products || []), 
-            { 
-                ...product, 
-                productTotal: product.price * product.quantity 
-            }
+          ...(prevCart?.products || []),
+          {
+            ...product,
+            productTotal: product.price * product.quantity,
+          },
         ],
         grandTotal: calculateGrandTotal([
-            ...(prevCart?.products || []),
-            { 
-                ...product, 
-                productTotal: product.price * product.quantity 
-            }
-        ])
-    };
-    console.log({newProduct}, {prevCart})
-    return prevCart ? {...prevCart?.products, newProduct} : [newProduct];
-})
-}
-  const { setCart, cart } = useStore(
-    (state) => state,
-  );
+          ...(prevCart?.products || []),
+          {
+            ...product,
+            productTotal: product.price * product.quantity,
+          },
+        ]),
+      };
+      console.log({ newProduct }, { prevCart });
+      return prevCart ? { ...prevCart?.products, newProduct } : [newProduct];
+    });
+  };
+  const { setCart, cart } = useStore((state) => state);
 
   const router = useRouter();
   // const { addCart, cart } = useContext(ProductContext);
@@ -74,16 +72,16 @@ const addToCart = (product: any) => {
       [id]: Math.max((prevQuantities[id] || 1) - 1, 1),
     }));
   };
-console.log({cart})
+  console.log({ cart });
   const showDetail = (id: any) => {
     router.push({
       pathname: "/product/detail",
       query: { id },
     });
   };
-useEffect(() => {
-  setCart(cartItem);
-}, [cartItem])
+  useEffect(() => {
+    setCart(cartItem);
+  }, [cartItem]);
   return (
     <div className="p-6 flex flex-wrap justify-between items-center gap-[25px]">
       {products?.map((item: any) => (
@@ -132,9 +130,13 @@ useEffect(() => {
             </div>
             <button
               className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none"
-              onClick={() =>{ 
-                console.log({ ...item, quantity: quantities[item.id] || 1 }, 'kskskkpoi')
-                addToCart({ ...item, quantity: quantities[item.id] || 1 })}}
+              onClick={() => {
+                console.log(
+                  { ...item, quantity: quantities[item.id] || 1 },
+                  "kskskkpoi"
+                );
+                addToCart({ ...item, quantity: quantities[item.id] || 1 });
+              }}
             >
               Add to Cart
             </button>
