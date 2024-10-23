@@ -1,6 +1,5 @@
 import { createContext, useState } from "react"
 import useGetProducts from "@/hooks/queries/product/useGetProucts";
-import useGetProductsByCategory from "@/hooks/queries/product/useGetProductByCategory";
 
 
 const productContextValue = {
@@ -12,18 +11,20 @@ const productContextValue = {
   addCart: (product) => {},
   updateProductQuantity: (id, quantity) => {},
   removeProductFromCart: (id) => {},
-  getProductByCategory: (category) => {}
+  getProductByCategory: (category) => {},
+  loading: false
 }
  
 const ProductContext = createContext(productContextValue)
 
 const ProductProvider = ({ children }) => {
-  const { data: products } = useGetProducts();
+  const { data: products, isLoading: isProductListLoading } = useGetProducts();
   const [, setProducts] = useState(products);
 
-  const [product, setProduct] = useState(undefined);
-  const [cart, setCart] = useState();
+  const [product, setProduct] = useState();
+  const [cart, setCart] = useState([]);
 
+const [loading, setLoading] = useState(false)
 
   const addProduct = newProduct => {
     setProducts(prevProducts => [...prevProducts, newProduct])
@@ -31,15 +32,18 @@ const ProductProvider = ({ children }) => {
 
   const calculateGrandTotal = products => {
     return products.reduce(
-      (acc, product) => acc + product.price * product.quantity,
+      (acc, product) => acc + product.productTotal,
       0
     )
   }
 
-  const addCart = product => {
+  isProductListLoading ?? setLoading(true);
+
+  const addCart = (product) => {
+    console.log({product})
     setCart(prevCart => {
       const newProduct = {
-        products:   [...prevCart?.products, product],
+        products:   [...prevCart?.products, {product, productTotal: product.price * product.quantity}],
         grandTotal: calculateGrandTotal(...prevCart?.products)
       }
 
@@ -69,8 +73,8 @@ const ProductProvider = ({ children }) => {
   }
 
     const getProductByCategory = category => {
-       const { data: productsInCategory } = useGetProductsByCategory(category);
       setProducts(productsInCategory)
+      isLoading ?? setLoading(true);
     }
 
     
@@ -83,7 +87,8 @@ const ProductProvider = ({ children }) => {
     addCart,
     updateProductQuantity,
     removeProductFromCart,
-    getProductByCategory
+    getProductByCategory,
+    loading
   }
   return (
     <ProductContext.Provider value={productContextType}>

@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
-const SearchInput = () => {
+const SearchInput = ({ ...args }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const { search, products } = args;
+
+  const searchProductByName = async (productName: any) => {
+    console.log(productName.toLowerCase());
+    if (productName.toLowerCase().length > 0) {
+      const searched = products?.filter((product: any) => {
+        return (product = product?.title
+          .toLowerCase()
+          .includes(productName.toLowerCase()));
+      });
+      search(searched);
+    } else if (productName.toLowerCase().length <= 0) {
+      return products;
+    }
+  };
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      // alert(`You pressed Enter! The input value is: ${searchTerm}`);
+      searchProductByName(searchTerm);
+      // Perform any action you want here
+    }
+  };
+
+  useEffect(() => {
+    searchProductByName(searchTerm);
+  }, [searchTerm]);
+
   return (
-    <div className="flex items-center border border-gray-300 rounded-lg p-2 bg-white h-[58px] ">
+    <div className="flex items-center border border-gray-300 rounded-lg p-2 bg-white h-[58px] w-full">
       {/* Search Icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,12 +48,31 @@ const SearchInput = () => {
         />
       </svg>
 
-      {/* Search Input */}
       <input
         type="text"
+        value={searchTerm as string}
+        onChange={async (e) => {
+          await setSearchTerm(e.target.value as string);
+          console.log(e.target.value, "KSJJ");
+        }}
+        onKeyDown={handleKeyPress}
         placeholder="Search..."
-        className="flex-grow outline-none text-gray-700 " 
+        className="flex-grow outline-none text-gray-700 "
       />
+
+      {searchTerm.length > 0 ? (
+        <button
+          onClick={async() => {
+            await setSearchTerm("" as string);
+            await search(products);
+          }}
+          className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer"
+        >
+          ✕
+        </button>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

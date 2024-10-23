@@ -25,8 +25,9 @@
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
       "@types/*": ["src/types/*"],
+      "@store/*": ["src/store/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/context.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/context.js"],
   "exclude": ["node_modules"]
 }

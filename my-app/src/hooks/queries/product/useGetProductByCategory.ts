@@ -25,7 +25,7 @@ const useGetProductsByCategory = (category? :string) => {
     AxiosResponse<any>,
     AxiosError
   >([QUERY_GET_PRODUCT, category], () => getProduct(category), {
-    enabled: true,
+    enabled: !!category,
     refetchOnWindowFocus: false,
   });
   return { data: data?.data, ...queryDProps };
