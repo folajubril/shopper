@@ -13,7 +13,7 @@ const CheckoutPage = () => {
           <title>Checkout / Simple - Shopper</title>
           <meta name="description" content="Ecommerce application" />
         </Head>
-        <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+        <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6 ">
             <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
             <div
         onClick={goBack}
@@ -130,7 +130,7 @@ const CheckoutPage = () => {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                        className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                     >
                         Complete Checkout
                     </button>

@@ -7,6 +7,7 @@ import SearchInput from "@components/searchInput";
 import FilterTags from "@components/categoryTags";
 import { ProductContext, productContextValue } from "@utils/context";
 import useGetProducts from "@/hooks/queries/product/useGetProucts";
+
 export default function Home() {
   const { data, isLoading } = useGetProducts();
   const [productList, setProductList] = useState<any>(data);
