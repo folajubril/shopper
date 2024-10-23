@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { ProductContext, productContextValue } from "@utils/context";
 import Image from "next/image";
 import Layout from "@/layouts";
 import Head from "next/head";
@@ -40,14 +39,14 @@ const Cart = ({ cartItems }: any) => {
         </svg>
         <span className="text-gray-800">Back</span>
       </div>
-      {cartItems.length ? (
+      {cartItems?.length ? (
         <>
           {" "}
           <div className="bg-white rounded-lg shadow-lg p-6 w-full">
             {cartItems?.map((item: any) => (
-              <div key={item.product.id} className="flex items-center mb-6 border-b pb-4 w-full" >
+              <div key={item?.product.id} className="flex items-center mb-6 border-b pb-4 w-full" >
                 <Image
-                  src={item.product.image}
+                  src={item?.product.image}
                   alt={item.title}
                   width={100}
                   height={100}
@@ -58,14 +57,14 @@ const Cart = ({ cartItems }: any) => {
                 <div className="flex-grow">
                   <h2 className="text-lg font-semibold">{item.title}</h2>
                   <p className="text-gray-500">
-                    Price: ${item.product.price}
+                    Price: ${item?.product.price}
                   </p>
-                  <p className="text-gray-500">Quantity: {item.product.quantity}</p>
+                  <p className="text-gray-500">Quantity: {item?.product.quantity}</p>
                 </div>
 
                 {/* Subtotal */}
                 <div className="text-lg font-semibold">
-                  ${item.product.price * item.product.quantity}
+                  ${item?.product.price * item?.product.quantity}
                 </div>
               </div>
             ))}
@@ -93,7 +92,6 @@ const Cart = ({ cartItems }: any) => {
 export default function CartPage() {
   const { cart } = useStore((state) => state);
   return (
-    <ProductContext.Provider value={productContextValue}>
       <Layout>
         <Head>
           <title>Cart / Simple - Shopper</title>
@@ -103,6 +101,5 @@ export default function CartPage() {
           <Cart cartItems={cart} />
         </div>
       </Layout>
-    </ProductContext.Provider>
   );
 }
