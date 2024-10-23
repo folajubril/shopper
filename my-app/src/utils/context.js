@@ -40,7 +40,6 @@ const [loading, setLoading] = useState(false)
   isProductListLoading ?? setLoading(true);
 
   const addCart = (product) => {
-    console.log({product})
     setCart(prevCart => {
       const newProduct = {
         products:   [...prevCart?.products, {product, productTotal: product.price * product.quantity}],

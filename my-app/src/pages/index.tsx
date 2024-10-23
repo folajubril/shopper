@@ -10,8 +10,6 @@ import useGetProducts from "@/hooks/queries/product/useGetProucts";
 export default function Home() {
   const { data, isLoading } = useGetProducts();
   const [productList, setProductList] = useState<any>(data);
-console.log(data)
-console.log({productList})  
 const getFilteredProducts = async (products: any) => {
     await setProductList(products);
   };

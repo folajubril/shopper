@@ -12,7 +12,6 @@ const cartSliceType: StateCreator<
 > = (set) => ({
   cart: null,
   setCart: (arg?: any, ctx?: { req: any; res: any }) => {
-    console.log({arg})
     set(() => ({ cart: arg }));
   },
 });

@@ -5,7 +5,6 @@ import useGetProductsByCategory from "@/hooks/queries/product/useGetProductByCat
 const FilterTags = ({ ...args }) => {
   const { getFilteredProducts, products } = args;
   const { data: categories } = useGetAllProductsCategories();
-  console.log(categories);
 
   const [filterd, setFilterd] = useState({
     filter: null,
@@ -14,7 +13,6 @@ const FilterTags = ({ ...args }) => {
   });
   let cat = filterd?.filter ? filterd?.filter : "";
   const searchProductByCategory = async (categoryName: any) => {
-    console.log(categoryName.toLowerCase());
     if (categoryName.toLowerCase().length > 0) {
       const searched = products?.filter((product: any) => {
         return (product =
@@ -35,7 +33,6 @@ const FilterTags = ({ ...args }) => {
     getFilteredProducts(products)
   }
   const { data: productsInCategory } = useGetProductsByCategory(cat);
-  console.log({ productsInCategory });
   useEffect(() => {
     searchProductByCategory(cat);
   }, [cat]);

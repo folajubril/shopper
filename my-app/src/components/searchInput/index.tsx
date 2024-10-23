@@ -5,7 +5,6 @@ const SearchInput = ({ ...args }) => {
   const { search, products } = args;
 
   const searchProductByName = async (productName: any) => {
-    console.log(productName.toLowerCase());
     if (productName.toLowerCase().length > 0) {
       const searched = products?.filter((product: any) => {
         return (product = product?.title

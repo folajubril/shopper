@@ -12,7 +12,6 @@ const Cart = ({ cartItems }: any) => {
 
   const router = useRouter()
 
-  console.log({ cartItems });
   const totalPrice = cartItems.reduce((acc: any, item: any) => acc + item.total, 0)
   
   const goBack = () => {
@@ -93,7 +92,6 @@ const Cart = ({ cartItems }: any) => {
 
 export default function CartPage() {
   const { cart } = useStore((state) => state);
-  console.log({ cart }, "kksk");
   return (
     <ProductContext.Provider value={productContextValue}>
       <Layout>
