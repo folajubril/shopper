@@ -5,31 +5,19 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { ProductContext } from "@utils/context";
 import useStore from "@/store";
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  productTotal: number;
-}
 
-// Define the CartItem type
-interface CartItem {
-  products: Product[];
-  grandTotal: number;
-}
 export default function ProductCardList({ products }: any) {
   const [cartItem, setCartItem] = useState<any>();
 
   const calculateGrandTotal = (products: any) => {
     return products.reduce(
-      (acc: any, product: { price: any, quantity: any}) => acc + product.price * product.quantity,
+      (acc: any, product: { price: any; quantity: any }) =>
+        acc + product.price * product.quantity,
       0
     );
   };
 
   const addToCart = (product: any) => {
-    console.log({ product });
     setCartItem((prevCart: any | null) => {
       const newProduct = {
         products: [
@@ -40,7 +28,6 @@ export default function ProductCardList({ products }: any) {
           },
         ],
       };
-      console.log({ newProduct }, { prevCart });
       return prevCart
         ? [
             ...prevCart,
@@ -60,7 +47,7 @@ export default function ProductCardList({ products }: any) {
               total: calculateGrandTotal([
                 {
                   ...product,
-                 total: product.price * product.quantity,
+                  total: product.price * product.quantity,
                 },
               ]),
             },
@@ -70,10 +57,8 @@ export default function ProductCardList({ products }: any) {
   const { setCart, cart } = useStore((state) => state);
 
   const router = useRouter();
-  // const { addCart, cart } = useContext(ProductContext);
   const [quantities, setQuantities] = useState<Record<number, number>>({});
 
-  // Handle increment
   const increment = (id: number) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -81,14 +66,12 @@ export default function ProductCardList({ products }: any) {
     }));
   };
 
-  // Handle decrement for a specific product, ensuring quantity doesn't go below 1
   const decrement = (id: number) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
       [id]: Math.max((prevQuantities[id] || 1) - 1, 1),
     }));
   };
-  console.log({ cart });
   const showDetail = (id: any) => {
     router.push({
       pathname: "/product/detail",
@@ -97,7 +80,6 @@ export default function ProductCardList({ products }: any) {
   };
   useEffect(() => {
     setCart(cartItem);
-    console.log({ cartItem }, "iii");
   }, [cartItem]);
   return (
     <div className="p-6 flex flex-wrap justify-between items-center gap-[25px]">
@@ -148,10 +130,6 @@ export default function ProductCardList({ products }: any) {
             <button
               className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none"
               onClick={() => {
-                console.log(
-                  { ...item, quantity: quantities[item.id] || 1 },
-                  "kskskkpoi"
-                );
                 addToCart({ ...item, quantity: quantities[item.id] || 1 });
               }}
             >

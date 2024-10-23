@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Layout from "@/layouts";
 import Head from "next/head";
 import { ProductContext } from "@utils/context";
+import Image from "next/image";
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -11,73 +12,101 @@ const ProductDetail = () => {
   const { id } = router.query;
 
   const { data: productDetails } = useGetProduct(Number(id));
-  let lll = productDetails?.data;
+  let product = productDetails?.data;
 
   const { addCart, updateProductQuantity, cart } = useContext(ProductContext);
 
-  const [quantity, setQuantity] = useState(1);
-  useEffect(() => {
-    updateProductQuantity(id, quantity);
-  }, []);
-  const increment = () => {
-    setQuantity(quantity + 1);
+  const [quantities, setQuantities] = useState<Record<number, number>>({});
+  
+  const increment = (id: number) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: (prevQuantities[id] || 1) + 1,
+    }));
   };
-  const decrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+  const decrement = (id: number) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: Math.max((prevQuantities[id] || 1) - 1, 1),
+    }));
+
+  };
+  const goBack = () => {
+    router.back()
   };
   return (
     <div className="max-w-5xl mx-auto p-6">
-      {/* Product Container */}
+      <div
+        onClick={goBack}
+        className="flex mb-[10px]items-center space-x-2 cursor-pointer border-gray rounded-md p-[6px]"
+      >
+        <svg
+          className="w-6 h-6 text-gray-800"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 19l-7-7 7-7"
+          ></path>
+        </svg>
+        <span className="text-gray-800">Back</span>
+      </div>
       <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Product Image */}
         <div className="md:w-1/2">
-          <img
+          <Image
             className="w-full h-full object-cover"
-            src={lll?.image}
-            alt={lll?.title}
+            src={product?.image}
+            alt={product?.title}
+            width={400}
+            height={400}
           />
         </div>
 
-        {/* Product Details */}
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
-          {/* Title and Category */}
           <div>
-            <p className="text-sm text-gray-500 uppercase">{lll?.category}</p>
+            <p className="text-sm text-gray-500 uppercase">
+              {product?.category}
+            </p>
             <h1 className="text-2xl font-bold text-gray-800 mt-1">
-              {lll?.title}
+              {product?.title}
             </h1>
           </div>
 
-          {/* Rating */}
           <div className="flex items-center mt-4">
             <span className="text-yellow-400 text-xl">
-              {"★".repeat(lll?.rating.rate)}{" "}
+              {"★".repeat(product?.rating.rate)}{" "}
             </span>
-            <span className="text-gray-500 ml-2">({lll?.rating.rate}/5)</span>
+            <span className="text-gray-500 ml-2">
+              ({product?.rating.rate}/5)
+            </span>
           </div>
 
-          {/* Description */}
-          <p className="text-gray-600 mt-4">{lll?.description}</p>
+          <p className="text-gray-600 mt-4">{product?.description}</p>
 
-          {/* Price */}
           <div className="flex justify-between">
             <div className="mt-4 text-xl font-semibold text-blue-500">
-              ${lll?.price}
+              ${product?.price}
             </div>
             <div className="flex items-center space-x-4">
               <button
-                onClick={decrement}
+                onClick={() => decrement(product?.id)}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg"
               >
                 -
               </button>
 
-              <span className="text-xl font-semibold">{quantity}</span>
+              <span className="text-xl font-semibold">
+                {" "}
+                {quantities[product?.id] || 1}
+              </span>
 
               <button
-                onClick={increment}
+                onClick={() => increment(product?.id)}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg"
               >
                 +
@@ -85,11 +114,10 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Add to Cart Button */}
           <button
             className="mt-6 w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600"
-            onClick={(lll) => {
-              addCart(lll)
+            onClick={() => {
+              addCart({...product, quantity: quantities[product.id] || 1 });
             }}
           >
             Add to Cart
@@ -101,7 +129,6 @@ const ProductDetail = () => {
 };
 
 export default function ProductPage({ product }: any) {
-
   return (
     <Layout>
       <Head>

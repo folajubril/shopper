@@ -52,7 +52,7 @@ const Cart = ({ cartItems }: any) => {
                   alt={item.title}
                   width={100}
                   height={100}
-                  className="w-20 h-20 object-cover mr-4"
+                  className="w-20 h-20 object-contain mr-4"
                 />
 
                 {/* Product Details */}

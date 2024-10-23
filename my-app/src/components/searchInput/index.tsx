@@ -18,13 +18,7 @@ const SearchInput = ({ ...args }) => {
     }
   };
 
-  const handleKeyPress = (event: any) => {
-    if (event.key === "Enter") {
-      // alert(`You pressed Enter! The input value is: ${searchTerm}`);
-      searchProductByName(searchTerm);
-      // Perform any action you want here
-    }
-  };
+ 
 
   useEffect(() => {
     searchProductByName(searchTerm);
@@ -32,7 +26,6 @@ const SearchInput = ({ ...args }) => {
 
   return (
     <div className="flex items-center border border-gray-300 rounded-lg p-2 bg-white h-[58px] w-full">
-      {/* Search Icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-5 w-5 text-gray-500 mr-2"
@@ -53,9 +46,7 @@ const SearchInput = ({ ...args }) => {
         value={searchTerm as string}
         onChange={async (e) => {
           await setSearchTerm(e.target.value as string);
-          console.log(e.target.value, "KSJJ");
         }}
-        onKeyDown={handleKeyPress}
         placeholder="Search..."
         className="flex-grow outline-none text-gray-700 "
       />

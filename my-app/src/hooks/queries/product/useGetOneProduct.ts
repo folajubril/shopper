@@ -2,7 +2,6 @@
 import { useQuery } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 
-// import { paths } from '@src/types/api/terminal';
 import axiosApi from '@services/axiosApi';
 
 type Response = {

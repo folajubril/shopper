@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import useGetAllProductsCategories from "@/hooks/queries/product/useGetCategories";
-// import { ProductContext } from "@utils/context";
 import useGetProductsByCategory from "@/hooks/queries/product/useGetProductByCategory";
 
 const FilterTags = ({ ...args }) => {
   const { getFilteredProducts, products } = args;
   const { data: categories } = useGetAllProductsCategories();
-  // const { getProductByCategory } = useContext(ProductContext);
   console.log(categories);
 
   const [filterd, setFilterd] = useState({

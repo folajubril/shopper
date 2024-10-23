@@ -2,7 +2,6 @@
 import { useQuery } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 
-// import { paths } from '@src/types/api/terminal';
 import axiosApi from '@services/axiosApi';
 
 type Response = {
@@ -11,7 +10,7 @@ type Response = {
   data: any;
 };
 
-export const QUERY_GET_PRODUCT = 'Get product';
+export const QUERY_GET_PRODUCT_BY_CATEGORY = 'Get product by category';
 
 const getProduct =(
     category?: string,
@@ -24,7 +23,7 @@ const useGetProductsByCategory = (category? :string) => {
   const { data, ...queryDProps } = useQuery<
     AxiosResponse<any>,
     AxiosError
-  >([QUERY_GET_PRODUCT, category], () => getProduct(category), {
+  >([QUERY_GET_PRODUCT_BY_CATEGORY, category], () => getProduct(category), {
     enabled: !!category,
     refetchOnWindowFocus: false,
   });
