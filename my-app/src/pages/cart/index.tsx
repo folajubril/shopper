@@ -12,7 +12,7 @@ const Cart = ({ cartItems }: any) => {
 
   const router = useRouter()
 
-  const totalPrice = cartItems.reduce((acc: any, item: any) => acc + item.total, 0)
+  const totalPrice = cartItems?.reduce((acc: any, item: any) => acc + item.total, 0)
   
   const goBack = () => {
     router.back()
