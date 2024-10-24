@@ -24,6 +24,9 @@ const useGetProducts = () => {
     AxiosError
   >([QUERY_GET_ALL_PRODUCTS], () => getAllProducts(), {
     enabled: true,
+    cacheTime: 10000,
+    staleTime: 10000,
+    refetchInterval: 300000,
     refetchOnWindowFocus: false,
   });
   return { data: data?.data, ...queryDProps };

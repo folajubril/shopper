@@ -4,17 +4,26 @@ import Layout from "@/layouts";
 import Head from "next/head";
 import { useNavigate } from "react-router-dom";
 import useStore from "@/store";
-import { useRouter } from 'next/router'
-
+import { useRouter } from "next/router";
+import Close from '@components/svgs/close'
 const Cart = ({ cartItems }: any) => {
   // Calculate total price
+  const { setCart, cart } = useStore((state) => state);
+  const router = useRouter();
 
-  const router = useRouter()
+  const totalPrice = cartItems?.reduce(
+    (acc: any, item: any) => acc + item.total,
+    0
+  );
 
-  const totalPrice = cartItems?.reduce((acc: any, item: any) => acc + item.total, 0)
-  
+  const removeItemFromCart = (index: any) => {
+
+    setCart(cart.filter(( item: any) => item?.product.id !== index));
+
+  };
+
   const goBack = () => {
-    router.back()
+    router.back();
   };
   return (
     <div className="max-w-5xl p-6 w-full ">
@@ -44,7 +53,10 @@ const Cart = ({ cartItems }: any) => {
           {" "}
           <div className="bg-white rounded-lg shadow-lg p-6 w-full">
             {cartItems?.map((item: any) => (
-              <div key={item?.product.id} className="flex items-center mb-6 border-b pb-4 w-full" >
+              <div
+                key={item?.product.id}
+                className="flex items-center mb-6 border-b pb-4 w-full"
+              >
                 <Image
                   src={item?.product.image}
                   alt={item.title}
@@ -55,26 +67,39 @@ const Cart = ({ cartItems }: any) => {
 
                 {/* Product Details */}
                 <div className="flex-grow">
-                  <h2 className="text-lg font-semibold">{item?.product.title}</h2>
+                  <h2 className="text-lg font-semibold">
+                    {item?.product.title}
+                  </h2>
+                  <p className="text-gray-500">Price: ${item?.product.price}</p>
                   <p className="text-gray-500">
-                    Price: ${item?.product.price}
+                    Quantity: {item?.product.quantity}
                   </p>
-                  <p className="text-gray-500">Quantity: {item?.product.quantity}</p>
                 </div>
 
                 {/* Subtotal */}
-                <div className="text-lg font-semibold">
-                  ${item?.product.price * item?.product.quantity}
+                <div className="text-[16px]  flex flex-col gap-[20px]">
+                  <div
+                  className="self-end cursor-pointer"
+                    onClick={() => removeItemFromCart(item?.product.id)}
+                  >
+                    <Close/>
+                  </div>
+                  <p className="text-lg font-semibold">${item?.product.price * item?.product.quantity}</p>
                 </div>
               </div>
             ))}
 
             <div className="flex justify-between items-center mt-6 pt-4 border-t">
               <h2 className="text-2xl font-semibold">Total Price</h2>
-              <p className="text-2xl font-bold text-blue-500">${totalPrice.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-blue-500">
+                ${totalPrice.toFixed(2)}
+              </p>
             </div>
           </div>
-          <button onClick={() => router.push('/checkout')} className="mt-8 w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600">
+          <button
+            onClick={() => router.push("/checkout")}
+            className="mt-8 w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600"
+          >
             Proceed to Checkout
           </button>
         </>
@@ -92,14 +117,14 @@ const Cart = ({ cartItems }: any) => {
 export default function CartPage() {
   const { cart } = useStore((state) => state);
   return (
-      <Layout>
-        <Head>
-          <title>Cart / Simple - Shopper</title>
-          <meta name="description" content="Ecommerce application" />
-        </Head>
-        <div className="flex mt-[100px] justify-center">
-          <Cart cartItems={cart} />
-        </div>
-      </Layout>
+    <Layout>
+      <Head>
+        <title>Cart / Simple - Shopper</title>
+        <meta name="description" content="Ecommerce application" />
+      </Head>
+      <div className="flex mt-[100px] justify-center">
+        <Cart cartItems={cart} />
+      </div>
+    </Layout>
   );
 }

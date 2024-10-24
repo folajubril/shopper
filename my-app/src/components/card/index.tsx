@@ -54,7 +54,7 @@ export default function ProductCardList({ products }: any) {
           ];
     });
   };
-  const { setCart, cart } = useStore((state) => state);
+  const { setCart } = useStore((state) => state);
 
   const router = useRouter();
   const [quantities, setQuantities] = useState<Record<number, number>>({});
