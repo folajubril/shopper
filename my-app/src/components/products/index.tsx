@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import PaginatedProductPage from "../paginatedProductPage";
+import PaginatedProductPage from "@components/paginatedProductPage";
 
 export default function Products() {
 
