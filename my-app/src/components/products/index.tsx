@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
-import PaginatedProductPage from "../paginatedProductPage";
+import React from "react";
+import PaginatedProductPage from "@components/paginatedProductPage";
+
+
 
 export default function Products() {
 
